@@ -50,7 +50,15 @@ export default function Navigation() {
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         {user ? (
-          <Stack.Screen name="Main" component={TabNav} />
+          <>
+            <Stack.Screen name="Main"         component={TabNav} />
+            <Stack.Screen name="UserProfile"  component={ProfileScreen} />
+            <Stack.Screen
+              name="Conversation"
+              component={MessagesScreen}
+              options={{ headerShown: true, title: '' }}
+            />
+          </>
         ) : (
           <Stack.Screen name="Login" component={LoginScreen} />
         )}
