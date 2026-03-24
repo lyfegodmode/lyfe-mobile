@@ -1,10 +1,11 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import {
   View, Text, Image, StyleSheet, ScrollView,
-  TouchableOpacity, Dimensions, ActivityIndicator
+  TouchableOpacity, Dimensions
 } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useNavigation, useRoute } from '@react-navigation/native'
+import { Video, ResizeMode } from 'expo-av'
 import { useAuth } from '../context/AuthContext.js'
 import { api } from '../api/index.js'
 import { colors } from '../constants/theme.js'
@@ -64,15 +65,18 @@ export default function PostViewerScreen() {
             <Text style={styles.audioLabel}>Audio post</Text>
           </View>
         ) : isVideo ? (
-          <View style={styles.videoBlock}>
-            <Text style={styles.videoIcon}>▶</Text>
-            <Text style={styles.videoLabel}>Video — playback coming soon</Text>
-          </View>
+          <Video
+            source={{ uri: `${UPLOADS}/${post.media_url}` }}
+            style={styles.mediaBlock}
+            resizeMode={ResizeMode.CONTAIN}
+            useNativeControls
+            shouldPlay={false}
+          />
         ) : (
           <Image
             source={{ uri: `${UPLOADS}/${post.media_url}` }}
-            style={styles.media}
-            resizeMode="contain"
+            style={styles.mediaBlock}
+            resizeMode="cover"
           />
         )}
 
@@ -138,16 +142,9 @@ export default function PostViewerScreen() {
 const styles = StyleSheet.create({
   safe:           { flex: 1, backgroundColor: colors.white },
 
-  mediaWrap:      { width: SCREEN_WIDTH, aspectRatio: 1, backgroundColor: '#000' },
-  media:          { width: '100%', height: '100%' },
-  playOverlay:    { position: 'absolute', top: '50%', left: '50%', transform: [{ translateX: -24 }, { translateY: -24 }], width: 48, height: 48, borderRadius: 24, backgroundColor: 'rgba(0,0,0,0.5)', alignItems: 'center', justifyContent: 'center' },
-  playIcon:       { fontSize: 20, color: colors.white },
+  mediaBlock:     { width: SCREEN_WIDTH, height: SCREEN_WIDTH * 1.25, backgroundColor: '#000' },
 
-  videoBlock:     { width: SCREEN_WIDTH, aspectRatio: 1, backgroundColor: '#1a1a1a', alignItems: 'center', justifyContent: 'center', gap: 12 },
-  videoIcon:      { fontSize: 48, color: colors.white },
-  videoLabel:     { fontSize: 13, color: 'rgba(255,255,255,0.5)' },
-
-  audioBlock:     { width: SCREEN_WIDTH, aspectRatio: 1, backgroundColor: colors.sand, alignItems: 'center', justifyContent: 'center', gap: 12 },
+  audioBlock:     { width: SCREEN_WIDTH, height: SCREEN_WIDTH, backgroundColor: colors.sand, alignItems: 'center', justifyContent: 'center', gap: 12 },
   audioIcon:      { fontSize: 60, color: colors.bark },
   audioLabel:     { fontSize: 16, color: colors.bark },
 

@@ -3,6 +3,7 @@ import {
   View, Text, Image, StyleSheet, FlatList, TouchableOpacity,
   ActivityIndicator, Dimensions, RefreshControl
 } from 'react-native'
+import { Video, ResizeMode } from 'expo-av'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useNavigation } from '@react-navigation/native'
 import { useAuth } from '../context/AuthContext.js'
@@ -64,16 +65,23 @@ function FeedCard({ post, onProfilePress }) {
           <Text style={styles.audioLabel}>Audio</Text>
         </View>
       ) : isVideo ? (
-        <View style={[styles.mediaWrap, styles.videoCard]}>
-          <Text style={styles.playIcon}>▶</Text>
-          <Text style={styles.videoLabel}>Video</Text>
+        <View style={styles.mediaWrap}>
+          <Video
+            source={{ uri: `${UPLOADS}/${post.media_url}` }}
+            style={styles.media}
+            resizeMode={ResizeMode.COVER}
+            useNativeControls
+            shouldPlay={false}
+          />
         </View>
       ) : (
-        <Image
-          source={{ uri: `${UPLOADS}/${post.media_url}` }}
-          style={styles.media}
-          resizeMode="cover"
-        />
+        <View style={styles.mediaWrap}>
+          <Image
+            source={{ uri: `${UPLOADS}/${post.media_url}` }}
+            style={styles.media}
+            resizeMode="cover"
+          />
+        </View>
       )}
 
       {/* Caption */}
@@ -168,9 +176,6 @@ const styles = StyleSheet.create({
   media:        { width: '100%', height: '100%' },
   playOverlay:  { position: 'absolute', inset: 0, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(0,0,0,0.15)' },
   playIcon:     { fontSize: 40, color: colors.white },
-
-  videoCard:    { backgroundColor: '#1a1a1a', alignItems: 'center', justifyContent: 'center', gap: 10 },
-  videoLabel:   { fontSize: 13, color: 'rgba(255,255,255,0.6)' },
 
   audioCard:    { width: SCREEN_WIDTH, aspectRatio: 1, backgroundColor: colors.sand, alignItems: 'center', justifyContent: 'center' },
   audioIcon:    { fontSize: 48, color: colors.bark },
