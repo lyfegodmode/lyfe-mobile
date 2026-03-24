@@ -1,4 +1,5 @@
 import { useEffect, useState, useCallback } from 'react'
+import { useFocusEffect } from '@react-navigation/native'
 import {
   View, Text, Image, StyleSheet, ScrollView, TouchableOpacity,
   FlatList, Dimensions, ActivityIndicator
@@ -29,11 +30,10 @@ function PostTile({ post, onPress }) {
     <TouchableOpacity style={styles.tile} onPress={() => onPress(post)} activeOpacity={0.85}>
       {isAudio ? (
         <View style={styles.audioTile}><Text style={styles.audioIcon}>♪</Text></View>
+      ) : isVideo ? (
+        <View style={styles.videoTile}><Text style={styles.playIcon}>▶</Text></View>
       ) : (
         <Image source={{ uri: `${UPLOADS}/${post.media_url}` }} style={styles.tileImage} />
-      )}
-      {isVideo && (
-        <View style={styles.playOverlay}><Text style={styles.playIcon}>▶</Text></View>
       )}
     </TouchableOpacity>
   )
@@ -73,7 +73,7 @@ export default function ProfileScreen() {
       .finally(() => setLoading(false))
   }, [username, isOwner])
 
-  useEffect(() => { load() }, [load])
+  useFocusEffect(useCallback(() => { load() }, [load]))
 
   // Set navigation title for stack screen
   useEffect(() => {
@@ -246,8 +246,8 @@ const styles = StyleSheet.create({
   tileImage:       { width: '100%', height: '100%' },
   audioTile:       { width: '100%', height: '100%', backgroundColor: colors.sand, alignItems: 'center', justifyContent: 'center' },
   audioIcon:       { fontSize: 28, color: colors.bark },
-  playOverlay:     { position: 'absolute', bottom: 6, right: 6 },
-  playIcon:        { fontSize: 14, color: colors.white },
+  videoTile:       { width: '100%', height: '100%', backgroundColor: '#1a1a1a', alignItems: 'center', justifyContent: 'center' },
+  playIcon:        { fontSize: 22, color: colors.white },
 
   empty:           { padding: 48, alignItems: 'center' },
   emptyText:       { color: colors.bark, fontSize: 15 },

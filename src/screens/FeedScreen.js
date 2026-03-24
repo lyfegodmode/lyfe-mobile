@@ -63,19 +63,17 @@ function FeedCard({ post, onProfilePress }) {
           <Text style={styles.audioIcon}>♪</Text>
           <Text style={styles.audioLabel}>Audio</Text>
         </View>
-      ) : (
-        <View style={styles.mediaWrap}>
-          <Image
-            source={{ uri: `${UPLOADS}/${post.media_url}` }}
-            style={styles.media}
-            resizeMode="cover"
-          />
-          {isVideo && (
-            <View style={styles.playOverlay}>
-              <Text style={styles.playIcon}>▶</Text>
-            </View>
-          )}
+      ) : isVideo ? (
+        <View style={[styles.mediaWrap, styles.videoCard]}>
+          <Text style={styles.playIcon}>▶</Text>
+          <Text style={styles.videoLabel}>Video</Text>
         </View>
+      ) : (
+        <Image
+          source={{ uri: `${UPLOADS}/${post.media_url}` }}
+          style={styles.media}
+          resizeMode="cover"
+        />
       )}
 
       {/* Caption */}
@@ -170,6 +168,9 @@ const styles = StyleSheet.create({
   media:        { width: '100%', height: '100%' },
   playOverlay:  { position: 'absolute', inset: 0, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(0,0,0,0.15)' },
   playIcon:     { fontSize: 40, color: colors.white },
+
+  videoCard:    { backgroundColor: '#1a1a1a', alignItems: 'center', justifyContent: 'center', gap: 10 },
+  videoLabel:   { fontSize: 13, color: 'rgba(255,255,255,0.6)' },
 
   audioCard:    { width: SCREEN_WIDTH, aspectRatio: 1, backgroundColor: colors.sand, alignItems: 'center', justifyContent: 'center' },
   audioIcon:    { fontSize: 48, color: colors.bark },

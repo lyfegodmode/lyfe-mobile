@@ -63,19 +63,17 @@ export default function PostViewerScreen() {
             <Text style={styles.audioIcon}>♪</Text>
             <Text style={styles.audioLabel}>Audio post</Text>
           </View>
-        ) : (
-          <View style={styles.mediaWrap}>
-            <Image
-              source={{ uri: `${UPLOADS}/${post.media_url}` }}
-              style={styles.media}
-              resizeMode="contain"
-            />
-            {isVideo && (
-              <View style={styles.playOverlay}>
-                <Text style={styles.playIcon}>▶</Text>
-              </View>
-            )}
+        ) : isVideo ? (
+          <View style={styles.videoBlock}>
+            <Text style={styles.videoIcon}>▶</Text>
+            <Text style={styles.videoLabel}>Video — playback coming soon</Text>
           </View>
+        ) : (
+          <Image
+            source={{ uri: `${UPLOADS}/${post.media_url}` }}
+            style={styles.media}
+            resizeMode="contain"
+          />
         )}
 
         {/* Post info */}
@@ -144,6 +142,10 @@ const styles = StyleSheet.create({
   media:          { width: '100%', height: '100%' },
   playOverlay:    { position: 'absolute', top: '50%', left: '50%', transform: [{ translateX: -24 }, { translateY: -24 }], width: 48, height: 48, borderRadius: 24, backgroundColor: 'rgba(0,0,0,0.5)', alignItems: 'center', justifyContent: 'center' },
   playIcon:       { fontSize: 20, color: colors.white },
+
+  videoBlock:     { width: SCREEN_WIDTH, aspectRatio: 1, backgroundColor: '#1a1a1a', alignItems: 'center', justifyContent: 'center', gap: 12 },
+  videoIcon:      { fontSize: 48, color: colors.white },
+  videoLabel:     { fontSize: 13, color: 'rgba(255,255,255,0.5)' },
 
   audioBlock:     { width: SCREEN_WIDTH, aspectRatio: 1, backgroundColor: colors.sand, alignItems: 'center', justifyContent: 'center', gap: 12 },
   audioIcon:      { fontSize: 60, color: colors.bark },
