@@ -46,6 +46,11 @@ export const api = {
     followers:     (username) => request(`/follow/${username}/followers`),
     following:     (username) => request(`/follow/${username}/following`),
   },
+  notifications: {
+    list:     () => request('/notifications'),
+    unread:   () => request('/notifications/unread'),
+    markRead: () => request('/notifications/read', { method: 'POST' }),
+  },
   messages: {
     inbox:         ()         => request('/messages'),
     unread:        ()         => request('/messages/unread'),
