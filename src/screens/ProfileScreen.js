@@ -1,8 +1,9 @@
 import { useEffect, useState, useCallback } from 'react'
 import {
   View, Text, Image, StyleSheet, ScrollView, TouchableOpacity,
-  FlatList, Dimensions, ActivityIndicator, SafeAreaView
+  FlatList, Dimensions, ActivityIndicator
 } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import { useAuth } from '../context/AuthContext.js'
 import { api } from '../api/index.js'
