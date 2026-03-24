@@ -46,6 +46,7 @@ export default function ProfileScreen() {
 
   // Use route param username if provided, otherwise show logged-in user
   const username = route.params?.username ?? user?.username
+  const isStackScreen = !!route.params?.username  // true when accessed via UserProfile stack
 
   const [profile, setProfile] = useState(null)
   const [posts, setPosts] = useState([])
@@ -73,6 +74,13 @@ export default function ProfileScreen() {
   }, [username, isOwner])
 
   useEffect(() => { load() }, [load])
+
+  // Set navigation title for stack screen
+  useEffect(() => {
+    if (isStackScreen && profile) {
+      navigation.setOptions({ title: `@${profile.username}` })
+    }
+  }, [isStackScreen, profile])
 
   const handleFollow = async () => {
     setFollowLoading(true)
@@ -104,8 +112,12 @@ export default function ProfileScreen() {
   const location = [profile.city, profile.state, profile.country].filter(Boolean).join(', ')
     || profile.location || null
 
+  // Stack screen: header handles top → only apply bottom edge
+  // Tab screen: no tab bar bottom padding needed from SafeAreaView → apply top edge only
+  const safeEdges = isStackScreen ? ['bottom', 'left', 'right'] : ['top', 'left', 'right']
+
   return (
-    <SafeAreaView style={styles.safe}>
+    <SafeAreaView style={styles.safe} edges={safeEdges}>
       <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
 
         {/* Header */}
@@ -144,7 +156,7 @@ export default function ProfileScreen() {
         {/* Actions */}
         <View style={styles.actions}>
           {isOwner ? (
-            <TouchableOpacity style={styles.btnGhost} onPress={() => {}}>
+            <TouchableOpacity style={styles.btnGhost} onPress={() => navigation.navigate('EditProfile')}>
               <Text style={styles.btnGhostText}>Edit profile</Text>
             </TouchableOpacity>
           ) : (
@@ -183,7 +195,7 @@ export default function ProfileScreen() {
         ) : (
           <View style={styles.grid}>
             {filteredPosts.map(post => (
-              <PostTile key={post.id} post={post} onPress={() => {}} />
+              <PostTile key={post.id} post={post} onPress={(p) => navigation.navigate('PostViewer', { post: p })} />
             ))}
           </View>
         )}

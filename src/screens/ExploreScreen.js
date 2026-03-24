@@ -71,7 +71,7 @@ export default function ExploreScreen() {
   )
 
   return (
-    <SafeAreaView style={styles.safe}>
+    <SafeAreaView style={styles.safe} edges={['top', 'left', 'right']}>
       <View style={styles.topBar}>
         <Text style={styles.topBarTitle}>Explore</Text>
       </View>
@@ -92,7 +92,7 @@ export default function ExploreScreen() {
         numColumns={3}
         columnWrapperStyle={styles.row}
         renderItem={({ item }) => (
-          <PostTile post={item} onPress={(post) => navigation.navigate('UserProfile', { username: post.username })} />
+          <PostTile post={item} onPress={(post) => navigation.navigate('PostViewer', { post })} />
         )}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={colors.earth} />}
         ListEmptyComponent={

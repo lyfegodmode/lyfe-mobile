@@ -45,7 +45,7 @@ export function InboxScreen() {
   )
 
   return (
-    <SafeAreaView style={styles.safe}>
+    <SafeAreaView style={styles.safe} edges={['top', 'left', 'right']}>
       <View style={styles.topBar}>
         <Text style={styles.topBarTitle}>Messages</Text>
       </View>
