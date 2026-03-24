@@ -106,7 +106,7 @@ export default function FeedScreen() {
 
   const load = useCallback(async () => {
     try {
-      const data = user ? await api.posts.feedPersonal() : await api.posts.feed()
+      const data = user ? await api.posts.feed() : await api.posts.explore()
       setPosts(data)
     } catch (e) {
       console.error(e)
