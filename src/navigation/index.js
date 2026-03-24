@@ -44,23 +44,12 @@ function TabNav() {
   )
 }
 
-const NAV_THEME = {
-  colors: {
-    background: colors.white,
-    border: colors.sand,
-    card: colors.white,
-    notification: colors.earth,
-    primary: colors.earth,
-    text: colors.ink,
-  },
-}
-
 export default function Navigation() {
   const { user, loading } = useAuth()
   if (loading) return null
 
   return (
-    <NavigationContainer theme={NAV_THEME}>
+    <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         {user ? (
           <>
