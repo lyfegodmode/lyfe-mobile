@@ -10,7 +10,7 @@ import LoginScreen    from '../screens/LoginScreen.js'
 import FeedScreen     from '../screens/FeedScreen.js'
 import ExploreScreen  from '../screens/ExploreScreen.js'
 import ProfileScreen  from '../screens/ProfileScreen.js'
-import MessagesScreen from '../screens/MessagesScreen.js'
+import MessagesScreen, { ConversationScreen } from '../screens/MessagesScreen.js'
 
 const Stack = createNativeStackNavigator()
 const Tab   = createBottomTabNavigator()
@@ -55,7 +55,7 @@ export default function Navigation() {
             <Stack.Screen name="UserProfile"  component={ProfileScreen} />
             <Stack.Screen
               name="Conversation"
-              component={MessagesScreen}
+              component={ConversationScreen}
               options={{ headerShown: true, title: '' }}
             />
           </>
